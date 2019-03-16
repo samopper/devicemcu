@@ -15,10 +15,11 @@
 #define buttonPin 2                                                     //button to turn off alert tone
 
 
-
 enum states {STEADY, FALL, ALERT};                                      //the different states the code will be in
 states current_state = STEADY;                                          //start in the steady state
-Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();                              //create sensor
+Adafruit_LSM9DS1 lsm = Adafruit_LSM9DS1();                              //create lsm sensor
+SoftwareSerial Hc08(2, 3);                                              //create hc08 module
+
 double x = 0;                                                              //initialize x component
 double y = 0;                                                              //initialize y component
 double z = 0;                                                              //initialize z component
@@ -108,6 +109,7 @@ void loop()
       Then return to the steady state
       */
       Serial.println("FALL DETECTED");
+      Hc08.write(1);//send  1 (alert) to phone
       current_state = STEADY;
       
       break;
